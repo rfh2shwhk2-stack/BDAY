@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 21st Birthday Baby ❤️</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/fontsource/css/inter@latest/index.css" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        
+        body {
+            background: #0a0a0f;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .age-badge {
+            font-size: 8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b9d, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 40px rgba(255, 107, 157, 0.3));
+        }
+
+        .countdown-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.5rem;
+        }
+
+        .countdown-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            min-width: 90px;
+        }
+
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ff6b9d;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.5rem;
+        }
+
+        .letter-section {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        .letter-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+        }
+
+        .letter-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff6b9d, transparent);
+            border-radius: 2px;
+        }
+
+        .letter-text {
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 2;
+            font-size: 0.95rem;
+            white-space: pre-line;
+        }
+
+        .languages-section {
+            padding: 4rem 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .language-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        .language-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .language-card:hover {
+            background: rgba(255, 107, 157, 0.06);
+            border-color: rgba(255, 107, 157, 0.2);
+        }
+
+        .lang-name {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.3rem;
+        }
+
+        .lang-birthday {
+            color: #ff6b9d;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .lang-love {
+            color: #c084fc;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            animation: floatUp linear infinite;
+            opacity: 0.15;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.15; }
+            90% { opacity: 0.15; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        .section-divider {
+            width: 40px;
+            height: 2px;
+            background: #ff6b9d;
+            margin: 0 auto;
+            border-radius: 2px;
+            opacity: 0.5;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-8px); }
+            60% { transform: translateX(-50%) translateY(-4px); }
+        }
+
+        .tab-btn {
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tab-btn.active {
+            background: rgba(255, 107, 157, 0.1);
+            border-color: rgba(255, 107, 157, 0.3);
+            color: #ff6b9d;
+        }
+
+        .confetti {
+            position: fixed;
+            top: -10px;
+            z-index: 1000;
+            pointer-events: none;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .celebration .countdown-number {
+            animation: pulse 1.5s ease infinite;
+        }
+
+        .celebration .age-badge {
+            animation: pulse 2s ease infinite;
+        }
+    </style>
+</head>
+<body class="text-white">
+    <div class="floating-hearts" id="hearts"></div>
+
+    <!-- Hero / Countdown -->
+    <section class="hero-section relative z-10">
+        <div class="text-center px-4">
+            <p class="text-xs tracking-widest text-white opacity-30 uppercase mb-6">counting down to midnight</p>
+            <div class="age-badge">21</div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-2" style="color: #ff6b9d;">Happy Birthday</h1>
+            <p class="text-xl md:text-2xl font-light text-white opacity-60">Baby ❤️</p>
+            
+            <div class="countdown-container" id="countdown">
+                <div class="countdown-box">
+                    <div class="countdown-number" id="hours">00</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="minutes">00</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="seconds">00</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+
+            <div id="birthday-message" class="hidden mt-8">
+                <p class="text-2xl font-semibold" style="color: #ff6b9d;">🎂 It's your 21st! 🎉</p>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2">
+                <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Letter -->
+    <section class="letter-section relative z-10">
+        <div class="text-center mb-8">
+            <p class="text-xs tracking-widest text-white opacity-30 uppercase mb-3">a letter for you</p>
+            <div class="section-divider"></div>
+        </div>
+        <div class="letter-card">
+            <p class="letter-text">happy birthday baby ❤️
+
+i just wanna say how much i love you and how happy i am that i get to spend time with you. honestly, i dont really care what we're doing. whether we're playing ml, valorant, roblox, or just talking about random shit, as long as im with you im already happy.
+
+even the most simple moments with you mean a lot to me. sometimes we're literally just playing a game and doing nothing special, but those are still some of my favorite moments because it's with you.
+
+i know i don't always say it perfectly and sometimes i might not know how to show it, but i really do love you so much. i'm grateful for you and for all the time we get to spend together.
+
+i hope you enjoy your day today baby. you deserve to be happy and enjoy your birthday. im really glad you're in my life and i hope i can keep making more memories with you.
+
+happy birthday my love ❤️ i love you so much</p>
+        </div>
+    </section>
+
+    <!-- Languages -->
+    <section class="languages-section relative z-10">
+        <div class="text-center mb-8">
+            <p class="text-xs tracking-widest text-white opacity-30 uppercase mb-3">around the world</p>
+            <h2 class="text-3xl md:text-4xl font-bold mb-3" style="color: #ff6b9d;">I Love You</h2>
+            <p class="text-white opacity-40 text-sm">in every language</p>
+            <div class="section-divider mt-4"></div>
+        </div>
+
+        <div class="flex justify-center gap-2 mb-8 flex-wrap">
+            <button class="tab-btn active" onclick="filterLangs('all')">All</button>
+            <button class="tab-btn" onclick="filterLangs('birthday')">Happy Birthday</button>
+            <button class="tab-btn" onclick="filterLangs('love')">I Love You</button>
+        </div>
+
+        <div class="language-grid" id="languageGrid"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 text-center py-16">
+        <p class="text-lg font-medium opacity-40">forever yours ❤️</p>
+    </footer>
+
+    <script>
+        const languages = [
+            { name: "Spanish", birthday: "¡Feliz cumpleaños!", love: "Te amo" },
+            { name: "French", birthday: "Joyeux anniversaire!", love: "Je t'aime" },
+            { name: "German", birthday: "Alles Gute zum Geburtstag!", love: "Ich liebe dich" },
+            { name: "Italian", birthday: "Buon compleanno!", love: "Ti amo" },
+            { name: "Portuguese", birthday: "Feliz aniversário!", love: "Eu te amo" },
+            { name: "Japanese", birthday: "お誕生日おめでとう！", love: "愛してる" },
+            { name: "Korean", birthday: "생일 축하해요!", love: "사랑해" },
+            { name: "Chinese", birthday: "生日快乐！", love: "我爱你" },
+            { name: "Russian", birthday: "С днём рождения!", love: "Я тебя люблю" },
+            { name: "Arabic", birthday: "عيد ميلاد سعيد", love: "أحبك" },
+            { name: "Hindi", birthday: "जन्मदिन मुबारक!", love: "मैं तुमसे प्यार करता हूँ" },
+            { name: "Turkish", birthday: "Mutlu yıllar!", love: "Seni seviyorum" },
+            { name: "Dutch", birthday: "Fijne verjaardag!", love: "Ik hou van je" },
+            { name: "Polish", birthday: "Wszystkiego najlepszego!", love: "Kocham cię" },
+            { name: "Swedish", birthday: "Grattis på födelsedagen!", love: "Jag älskar dig" },
+            { name: "Norwegian", birthday: "Gratulerer med dagen!", love: "Jeg elsker deg" },
+            { name: "Danish", birthday: "Tillykke med fødselsdagen!", love: "Jeg elsker dig" },
+            { name: "Finnish", birthday: "Hyvää syntymäpäivää!", love: "Rakastan sinua" },
+            { name: "Greek", birthday: "Χρόνια πολλά!", love: "Σ'αγαπώ" },
+            { name: "Czech", birthday: "Všechno nejlepší!", love: "Miluji tě" },
+            { name: "Romanian", birthday: "La mulți ani!", love: "Te iubesc" },
+            { name: "Hungarian", birthday: "Boldog születésnapot!", love: "Szeretlek" },
+            { name: "Thai", birthday: "สุขสันต์วันเกิด!", love: "ฉันรักคุณ" },
+            { name: "Vietnamese", birthday: "Chúc mừng sinh nhật!", love: "Anh yêu em" },
+            { name: "Indonesian", birthday: "Selamat ulang tahun!", love: "Aku cinta kamu" },
+            { name: "Malay", birthday: "Selamat hari jadi!", love: "Saya cinta kamu" },
+            { name: "Filipino", birthday: "Maligayang kaarawan!", love: "Mahal kita" },
+            { name: "Hebrew", birthday: "יום הולדת שמח", love: "אני אוהב אותך" },
+            { name: "Ukrainian", birthday: "З днем народження!", love: "Я тебе кохаю" },
+            { name: "Bengali", birthday: "শুভ জন্মদিন!", love: "আমি তোমাকে ভালোবাসি" },
+            { name: "Tamil", birthday: "பிறந்தநாள் வாழ்த்துக்கள்!", love: "நான் உன்னை காதலிக்கிறேன்" },
+            { name: "Swahili", birthday: "Heri ya kuzaliwa!", love: "Nakupenda" },
+            { name: "Persian", birthday: "تولدت مبارک", love: "دوستت دارم" },
+            { name: "Urdu", birthday: "سالگرہ مبارک", love: "میں تم سے محبت کرتا ہوں" },
+            { name: "Icelandic", birthday: "Til hamingju með afmælið!", love: "Ég elska þig" },
+            { name: "Irish", birthday: "Lá breithe sona duit!", love: "Tá grá agam ort" },
+            { name: "Welsh", birthday: "Pen-blwydd hapus!", love: "Rwy'n dy garu di" },
+            { name: "Catalan", birthday: "Per molts anys!", love: "T'estimo" },
+            { name: "Croatian", birthday: "Sretan rođendan!", love: "Volim te" },
+            { name: "Serbian", birthday: "Срећан рођендан!", love: "Волим те" },
+            { name: "Slovak", birthday: "Všetko najlepšie!", love: "Ľúbim ťa" },
+            { name: "Slovenian", birthday: "Vse najboljše!", love: "Ljubim te" },
+            { name: "Bulgarian", birthday: "Честит рожден ден!", love: "Обичам те" },
+            { name: "Lithuanian", birthday: "Su gimtadieniu!", love: "Aš tave myliu" },
+            { name: "Latvian", birthday: "Daudz laimes dzimšanas dienā!", love: "Es tevi mīlu" },
+            { name: "Estonian", birthday: "Head sünnipäeva!", love: "Ma armastan sind" },
+            { name: "Georgian", birthday: "დაბადების დღე გილოცავ!", love: "მიყვარხარ" },
+            { name: "Kazakh", birthday: "Туған күніңмен!", love: "Мен сені сүйемін" },
+            { name: "Mongolian", birthday: "Төрсөн өдрийн мэнд!", love: "Би чамд хайртай" },
+            { name: "Nepali", birthday: "जन्मदिनको शुभकामना!", love: "म तिमीलाई माया गर्छु" },
+            { name: "Khmer", birthday: "រីករាយថ្ងៃកំណើត!", love: "ខ្ញុំស្រលាញ់អ្នក" },
+            { name: "Amharic", birthday: "መልካም የልደት ቀን!", love: "እወድሃለሁ" },
+            { name: "Yoruba", birthday: "E ku eya odi!", love: "Mo nifẹ rẹ" },
+            { name: "Zulu", birthday: "Usuku lokuzalwa oluhle!", love: "Ngiyakuthanda" },
+            { name: "Somali", birthday: "Dhalasho wanaagsan!", love: "Waan ku jeclahay" },
+            { name: "Maori", birthday: "Rā whānau hari!", love: "Aroha nui" },
+            { name: "Hawaiian", birthday: "Hauʻoli lā hānau!", love: "Aloha wau iā ʻoe" },
+            { name: "Albanian", birthday: "Gëzuar ditëlindjen!", love: "Të dua" },
+            { name: "Macedonian", birthday: "Среќен роденден!", love: "Те сакам" },
+            { name: "Bosnian", birthday: "Sretan rođendan!", love: "Volim te" },
+            { name: "Maltese", birthday: "Il-jum ta' għeluq sninek!", love: "Inħobbok" },
+            { name: "Esperanto", birthday: "Gratulon pro via naskiĝtago!", love: "Mi amas vin" },
+            { name: "Latin", birthday: "Felix natalis!", love: "Te amo" },
+            { name: "Sanskrit", birthday: "जन्मदिनशुभकामना!", love: "अहं त्वां स्निह्यामि" },
+            { name: "Azerbaijani", birthday: "Ad günün mübarək!", love: "Mən səni sevirəm" },
+            { name: "Kurdish", birthday: "Rojbuna te pîroz be!", love: "Ez ji te hez dikim" },
+            { name: "Pashto", birthday: "د زیږون مبارک", love: "زه تا سره مینه لرم" },
+            { name: "Tibetan", birthday: "སྐྱེ་སྐར་བདེ་ལེགས!", love: "ང་ཁྱོད་ལ་དགའ།" },
+            { name: "Sinhala", birthday: "සුභ උපන් දිනයක් වේවා!", love: "මම ඔයාට ආදරෙයි" },
+            { name: "Burmese", birthday: "မွေးနေ့ပါးပါ!", love: "ငါမင်းကိုချစ်တယ်" },
+            { name: "Lao", birthday: "ສຸກສັນວັນເກີດ!", love: "ຂ້ອຍຮັກເຈົ້າ" },
+            { name: "Luxembourgish", birthday: "Alles Guddes zum Gebuertsdag!", love: "Ech hunn dech gär" },
+            { name: "Basque", birthday: "Zorionak!", love: "Maite zaitut" },
+            { name: "Galician", birthday: "Feliz aniversario!", love: "Quérote" },
+            { name: "Telugu", birthday: "పుట్టినరోజు శుభాకాంక్షలు!", love: "నేను నిన్ను ప్రేమిస్తున్నాను" },
+            { name: "Samoan", birthday: "Manuia le as fanau!", love: "Ou te alofa ia te oe" },
+        ];
+
+        function renderLanguages(filter = 'all') {
+            const grid = document.getElementById('languageGrid');
+            grid.innerHTML = '';
+            
+            languages.forEach((lang, index) => {
+                const card = document.createElement('div');
+                card.className = 'language-card';
+                
+                let content = '';
+                if (filter === 'all' || filter === 'birthday') {
+                    content += `<div class="lang-birthday">${lang.birthday}</div>`;
+                }
+                if (filter === 'all') {
+                    content += `<div style="height:4px"></div>`;
+                }
+                if (filter === 'all' || filter === 'love') {
+                    content += `<div class="lang-love">${lang.love}</div>`;
+                }
+                
+                card.innerHTML = `
+                    <div class="lang-name">${lang.name}</div>
+                    ${content}
+                `;
+                
+                grid.appendChild(card);
+                setTimeout(() => card.classList.add('visible'), 30 + index * 25);
+            });
+        }
+
+        function filterLangs(type) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderLanguages(type);
+        }
+
+        let celebrated = false;
+
+        function updateCountdown() {
+            const now = new Date();
+            // Target: Midnight September 21, Philippines Time (UTC+8)
+            const target = new Date("2026-09-21T00:00:00+08:00");
+            
+            const diff = target.getTime() - now.getTime();
+            
+            if (diff <= 0) {
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                document.getElementById('birthday-message').classList.remove('hidden');
+                document.getElementById('countdown').classList.add('celebration');
+                if (!celebrated) {
+                    celebrated = true;
+                    launchConfetti();
+                }
+                return;
+            }
+            
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        function createHearts() {
+            const container = document.getElementById('hearts');
+            const symbols = ['❤️', '💕', '💗', '✨'];
+            for (let i = 0; i < 15; i++) {
+                const el = document.createElement('span');
+                el.className = 'heart';
+                el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                el.style.left = Math.random() * 100 + '%';
+                el.style.animationDuration = (Math.random() * 12 + 12) + 's';
+                el.style.animationDelay = (Math.random() * 15) + 's';
+                el.style.fontSize = (Math.random() * 0.6 + 0.8) + 'rem';
+                container.appendChild(el);
+            }
+        }
+
+        function launchConfetti() {
+            const colors = ['#ff6b9d', '#c084fc', '#fbbf24', '#34d399', '#60a5fa'];
+            for (let i = 0; i < 80; i++) {
+                setTimeout(() => {
+                    const c = document.createElement('div');
+                    c.className = 'confetti';
+                    c.style.left = Math.random() * 100 + 'vw';
+                    c.style.width = Math.random() * 8 + 4 + 'px';
+                    c.style.height = Math.random() * 8 + 4 + 'px';
+                    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                    c.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    document.body.appendChild(c);
+                    setTimeout(() => c.remove(), 5000);
+                }, i * 30);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createHearts();
+            renderLanguages();
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        });
+    </script>
+</body>
+</html>
