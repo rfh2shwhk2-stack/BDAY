@@ -239,10 +239,52 @@
         .celebration .age-badge {
             animation: pulse 2s ease infinite;
         }
+
+        /* Music Button Styling */
+        .music-control {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 0.6rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ff6b9d;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .music-control:hover {
+            background: rgba(255, 107, 157, 0.15);
+            border-color: rgba(255, 107, 157, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .music-control.playing {
+            border-color: rgba(255, 107, 157, 0.5);
+            box-shadow: 0 0 15px rgba(255, 107, 157, 0.2);
+        }
     </style>
 </head>
 <body class="text-white">
     <div class="floating-hearts" id="hearts"></div>
+
+    <!-- Background Music Controls -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="your-music-file.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="musicToggle" class="music-control">
+        <span id="musicIcon">🎵</span>
+        <span id="musicText">Play Music</span>
+    </button>
 
     <!-- Hero / Countdown -->
     <section class="hero-section relative z-10">
@@ -502,11 +544,58 @@ happy birthday my love ❤️ i love you so much</p>
             }
         }
 
+        // Setup Audio Controls & Autoplay handling
+        function setupAudio() {
+            const audio = document.getElementById('bgMusic');
+            const toggleBtn = document.getElementById('musicToggle');
+            const musicIcon = document.getElementById('musicIcon');
+            const musicText = document.getElementById('musicText');
+
+            function playAudio() {
+                audio.play().then(() => {
+                    musicIcon.textContent = '⏸️';
+                    musicText.textContent = 'Pause Music';
+                    toggleBtn.classList.add('playing');
+                }).catch(err => {
+                    console.log("Autoplay waiting for user interaction");
+                });
+            }
+
+            function pauseAudio() {
+                audio.pause();
+                musicIcon.textContent = '🎵';
+                musicText.textContent = 'Play Music';
+                toggleBtn.classList.remove('playing');
+            }
+
+            toggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (audio.paused) {
+                    playAudio();
+                } else {
+                    pauseAudio();
+                }
+            });
+
+            // Trigger play on first interaction anywhere on page (browser policy compliance)
+            const handleFirstInteraction = () => {
+                if (audio.paused) {
+                    playAudio();
+                }
+                document.removeEventListener('click', handleFirstInteraction);
+                document.removeEventListener('touchstart', handleFirstInteraction);
+            };
+
+            document.addEventListener('click', handleFirstInteraction);
+            document.addEventListener('touchstart', handleFirstInteraction);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             createHearts();
             renderLanguages();
             updateCountdown();
             setInterval(updateCountdown, 1000);
+            setupAudio();
         });
     </script>
 </body>
